@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { projects } from '../data/content';
 
 const featured = projects.slice(0, 2);
+const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout title="Yassine Founounou — Software Developer" description="Software developer in Munich building reliable systems, applied AI products, and thoughtful interfaces." activePage="home">
@@ -13,13 +14,13 @@ const featured = projects.slice(0, 2);
         <h1 class="display-title">Complex systems<br /><span class="gradient-text">Clear solutions</span></h1>
         <p class="hero-lede">I build software to solve real engineering problems.</p>
         <div class="button-row">
-          <a class="button button--primary" href="/projects/">Projects <span class="arrow" aria-hidden="true">↗</span></a>
-          <a class="button button--quiet" href="/about/">About me <span class="arrow" aria-hidden="true">↗</span></a>
+          <a class="button button--primary" href={`${base}projects/`}>Projects <span class="arrow" aria-hidden="true">↗</span></a>
+          <a class="button button--quiet" href={`${base}about/`}>About me <span class="arrow" aria-hidden="true">↗</span></a>
         </div>
       </div>
       <div class="hero-visual" data-reveal>
         <div class="portrait-frame">
-          <img class="portrait-image" src="/yassine-portrait.png" alt="Portrait of Yassine Founounou" fetchpriority="high" />
+          <img class="portrait-image" src={`${base}yassine-portrait.png`} alt="Portrait of Yassine Founounou" fetchpriority="high" />
           <span class="portrait-caption">Yassine Founounou <span>·</span> Munich</span>
         </div>
       </div>
@@ -64,11 +65,11 @@ const featured = projects.slice(0, 2);
         <div class="section-heading-copy">
           <h2 class="section-title">Selected projects</h2>
         </div>
-        <a class="text-link" href="/projects/">View all <span class="arrow" aria-hidden="true">↗</span></a>
+        <a class="text-link" href={`${base}projects/`}>View all <span class="arrow" aria-hidden="true">↗</span></a>
       </div>
       <div class="work-grid">
         {featured.map((project, index) => (
-          <a class="project-card" href="/projects/" data-reveal class:list={[index === 1 && 'delay-1']}>
+          <a class="project-card" href={`${base}projects/`} data-reveal class:list={[index === 1 && 'delay-1']}>
             <div class="project-card-top"><span class="project-number">/{project.number}</span><span class="project-category">{project.category}</span></div>
             <div class="project-graphic" aria-hidden="true">
               {index === 0 ? (
