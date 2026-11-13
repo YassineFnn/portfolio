@@ -1,0 +1,19 @@
+---
+import { profile } from '../data/content';
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <a class="footer-cta" href="/contact/">Let’s connect <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="footer-meta">
+      <span>© {new Date().getFullYear()} {profile.name}</span>
+      <span class="footer-links">
+        <a href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+        <a href={profile.github} target="_blank" rel="noreferrer">GitHub</a>
+        <a href={`mailto:${profile.email}`}>Email</a>
+      </span>
+    </div>
+  </div>
+</footer>

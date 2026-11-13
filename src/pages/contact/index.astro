@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { profile } from '../../data/content';
+---
+
+<BaseLayout title="Contact — Yassine Founounou" description="Get in touch with Yassine Founounou about software engineering, collaboration, and interesting technical problems." activePage="contact">
+  <section class="page-hero">
+    <div class="page-shell page-hero-inner" data-reveal>
+      <p class="eyebrow">Contact</p>
+      <h1 class="display-title">Let’s <span class="gradient-text">talk</span></h1>
+    </div>
+  </section>
+
+  <section class="section--compact">
+    <div class="page-shell contact-grid">
+      <article class="glass-card contact-panel" data-reveal>
+        <p class="section-kicker">Links</p><h2 class="section-title" style="font-size: 35px">Find me here</h2>
+        <div class="contact-email"><a href={`mailto:${profile.email}`}>{profile.email}</a><button type="button" class="copy-button" data-copy-email={profile.email}><span aria-hidden="true">▢</span> Copy</button></div>
+        <p class="form-status" aria-live="polite" data-copy-status></p>
+        <div class="social-list">
+          <a class="social-link" href={profile.linkedin} target="_blank" rel="noreferrer"><span>LinkedIn</span><span aria-hidden="true">↗</span></a>
+          <a class="social-link" href={profile.github} target="_blank" rel="noreferrer"><span>GitHub</span><span aria-hidden="true">↗</span></a>
+          <a class="social-link" href={`tel:${profile.phone.replaceAll(' ', '')}`}><span>Call {profile.phone}</span><span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+
+      <article class="glass-card contact-panel" data-reveal>
+        <p class="section-kicker">Email</p><h2 class="section-title" style="font-size: 35px">Send a note</h2>
+        <form class="contact-form" data-contact-form>
+          <div class="field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" placeholder="Ada Lovelace" required /></div>
+          <div class="field"><label for="email">Your email</label><input id="email" name="email" type="email" autocomplete="email" placeholder="ada@example.com" required /></div>
+          <div class="field"><label for="message">Message</label><textarea id="message" name="message" placeholder="A few lines are plenty..." required></textarea></div>
+          <p class="form-note">Opens a draft in your email app.</p>
+          <button class="button button--primary" type="submit">Prepare email <span class="arrow" aria-hidden="true">↗</span></button>
+          <p class="form-status" aria-live="polite" data-form-status></p>
+        </form>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const copyButton = document.querySelector<HTMLButtonElement>('[data-copy-email]');
+  const copyStatus = document.querySelector<HTMLElement>('[data-copy-status]');
+  copyButton?.addEventListener('click', async () => {
+    const email = copyButton.dataset.copyEmail ?? '';
+    try {
+      await navigator.clipboard.writeText(email);
+      if (copyStatus) copyStatus.textContent = 'Email address copied.';
+    } catch {
+      window.location.href = `mailto:${email}`;
+      if (copyStatus) copyStatus.textContent = 'Your email app is ready.';
+    }
+  });
+
+  const contactForm = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const formStatus = document.querySelector<HTMLElement>('[data-form-status]');
+  contactForm?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!contactForm.reportValidity()) return;
+    const formData = new FormData(contactForm);
+    const name = String(formData.get('name') ?? '').trim();
+    const sender = String(formData.get('email') ?? '').trim();
+    const message = String(formData.get('message') ?? '').trim();
+    const subject = encodeURIComponent(`Portfolio note from ${name}`);
+    const body = encodeURIComponent(`${message}\n\n— ${name}\n${sender}`);
+    if (formStatus) formStatus.textContent = 'Opening your email app…';
+    window.location.href = `mailto:founounou2013@gmail.com?subject=${subject}&body=${body}`;
+  });
+</script>

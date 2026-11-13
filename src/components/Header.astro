@@ -1,0 +1,49 @@
+---
+import { profile } from '../data/content';
+
+const { activePage } = Astro.props;
+const links = [
+  { href: '/', label: 'Home', key: 'home' },
+  { href: '/about/', label: 'About', key: 'about' },
+  { href: '/projects/', label: 'Projects', key: 'projects' },
+  { href: '/contact/', label: 'Contact', key: 'contact' },
+];
+---
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="brand" href="/" aria-label={`${profile.name}, home`}>
+      <span class="brand-mark" aria-hidden="true">
+        <svg class="brand-monogram" viewBox="0 0 40 40" focusable="false">
+          <text x="20" y="25" text-anchor="middle">YF</text>
+        </svg>
+      </span>
+      <span class="brand-name">Yassine Founounou</span>
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" data-menu-toggle>
+      <span class="sr-only">Toggle navigation</span>
+      <span></span><span></span>
+    </button>
+    <nav id="site-navigation" class="site-nav" aria-label="Main navigation" data-site-nav>
+      {links.map((link) => (
+        <a href={link.href} class:list={['nav-link', { 'is-active': activePage === link.key }]} aria-current={activePage === link.key ? 'page' : undefined}>
+          {link.label}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<script>
+  const menuButton = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const siteNav = document.querySelector<HTMLElement>('[data-site-nav]');
+  menuButton?.addEventListener('click', () => {
+    const isOpen = menuButton.getAttribute('aria-expanded') === 'true';
+    menuButton.setAttribute('aria-expanded', String(!isOpen));
+    siteNav?.classList.toggle('is-open', !isOpen);
+  });
+  siteNav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+    menuButton?.setAttribute('aria-expanded', 'false');
+    siteNav.classList.remove('is-open');
+  }));
+</script>

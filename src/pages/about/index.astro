@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { education, experience, languages } from '../../data/content';
+---
+
+<BaseLayout title="About & Experience — Yassine Founounou" description="The story, experience, education, and skills behind Yassine Founounou’s work." activePage="about">
+  <section class="page-hero">
+    <div class="page-shell page-hero-inner" data-reveal>
+      <p class="eyebrow">About</p>
+      <h1 class="display-title">Software developer<br /><span class="gradient-text">in Munich</span></h1>
+      <p class="section-lede">Systems, applied AI, and product UI.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="page-shell">
+      <div class="section-heading" data-reveal>
+        <div class="section-heading-copy"><h2 class="section-title">Experience</h2></div>
+      </div>
+      <div class="timeline">
+        {experience.map((item) => (
+          <article class="timeline-item" data-reveal>
+            <div class="timeline-head">
+              <div><h3 class="timeline-title">{item.title}</h3><p class="timeline-company">{item.company}{item.current && <span class="current-pill">Current</span>}</p></div>
+              <span class="timeline-meta">{item.period}<br />{item.location}</span>
+            </div>
+            {item.summary && <p class="timeline-body">{item.summary}</p>}
+            {(item.highlights.length > 0 || item.stack.length > 0) && (
+              <details class="timeline-disclosure">
+                <summary>View selected contributions</summary>
+                {item.highlights.length > 0 && <ul class="timeline-details">{item.highlights.map((highlight) => <li>{highlight}</li>)}</ul>}
+                {item.stack.length > 0 && <div class="tag-row">{item.stack.map((tag) => <span class="tag">{tag}</span>)}</div>}
+              </details>
+            )}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section--compact">
+    <div class="page-shell">
+      <div class="section-heading" data-reveal><div class="section-heading-copy"><h2 class="section-title">Education</h2></div></div>
+      <div class="education-grid">
+        {education.map((item, index) => (
+          <article class="glass-card education-card" data-reveal class:list={[index > 0 && `delay-${index}`]}>
+            <span class="period">{item.period}</span><h3>{item.school}</h3><p class="degree">{item.degree}{item.location && <> <span aria-hidden="true">·</span> {item.location}</>}</p>{item.detail && <p class="detail">{item.detail}</p>}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="page-shell">
+      <div class="section-heading" data-reveal><div class="section-heading-copy"><h2 class="section-title">Skills</h2></div></div>
+      <div class="skill-grid">
+        {['⌘', '◈', '✳', '⌁'].map((icon, index) => (
+          <article class="glass-card skill-card" data-reveal class:list={[index > 0 && `delay-${Math.min(index, 3)}`]}>
+            <span class="skill-icon" aria-hidden="true">{icon}</span><h3>{['Programming languages', 'Web & product', 'AI & data', 'Systems & tools'][index]}</h3>
+            <div class="tag-row">{[['Go','C','C++','Python','JavaScript','TypeScript','SQL'], ['HTML','CSS','React','Hypermedia'], ['Pandas','NumPy','scikit-learn','PyTorch','RAG'], ['Docker','Kubernetes','Git','Jira','Jenkins','Artifactory']][index].map((skill) => <span class="tag">{skill}</span>)}</div>
+          </article>
+        ))}
+      </div>
+      <div class="bento-grid" style="margin-top: 14px">
+        <article class="bento-card bento-card--full" data-reveal>
+          <p class="card-label">Languages</p><div class="tag-row">{languages.map((language) => <span class="tag">{language.name} · {language.level}</span>)}</div>
+        </article>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
